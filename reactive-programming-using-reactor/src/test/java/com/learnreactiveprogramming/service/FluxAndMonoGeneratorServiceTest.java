@@ -67,4 +67,59 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNextCount(1)
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxMap() {
+        // given
+
+        // when
+        var namesFlux = svc.namesFluxMap();
+
+        // then
+        StepVerifier
+                .create(namesFlux)
+                .expectNext(
+                        "alex".toUpperCase(),
+                        "mike".toUpperCase(),
+                        "tiffany".toUpperCase(),
+                        "shannon".toUpperCase(),
+                        "jackie".toUpperCase())
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFluxMapFilter() {
+        // given
+
+        // when
+        var namesFlux = svc.namesFluxMap(4);
+
+        // then
+        StepVerifier
+                .create(namesFlux)
+                .expectNext(
+                        "TIFFANY",
+                        "SHANNON",
+                        "JACKIE")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFluxImmutable() {
+        // given
+
+        // when
+        var namesFlux = svc.namesFluxImmutable();
+
+        // then
+        StepVerifier
+                .create(namesFlux)
+                .expectNext(
+                        "alex",
+                        "mike",
+                        "tiffany",
+                        "shannon",
+                        "jackie")
+                .verifyComplete();
+    }
 }

@@ -18,17 +18,41 @@ public class FluxAndMonoGeneratorService {
                 .subscribe(name -> log.info("Mono.just() " + name));
     }
 
+    private final List<String> names =
+            List.of(
+                    "alex",
+                    "mike",
+                    "tiffany",
+                    "shannon",
+                    "jackie");
+
     // namesFlux is a publisher
     public Flux<String> namesFlux() {
-        return Flux.fromIterable(List.of(
-                "alex",
-                "mike",
-                "tiffany",
-                "shannon",
-                "jackie"))
+        return Flux.fromIterable(names)
                 .log();
     }
 
+    // namesFlux is a publisher
+    public Flux<String> namesFluxMap() {
+        return Flux
+                .fromIterable(names)
+                .map(String::toUpperCase);
+    }
+
+    public Flux<String> namesFluxMap(int stringLength) {
+        return Flux
+                .fromIterable(names)
+                .map(String::toUpperCase)
+                .filter(string -> string.length() > stringLength);
+    }
+
+
+    public Flux<String> namesFluxImmutable() {
+        var namesFlux = Flux.fromIterable(names);
+        namesFlux.map(String::toUpperCase);
+        return namesFlux;
+
+    }
     // namesMono is a publisher
     public Mono<String> nameMono() {
         return Mono.just("Sophia").log();
